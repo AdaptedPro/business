@@ -1,0 +1,30 @@
+<section id="form_holder">
+	<form id="image_upload_form" action="images/upload" method="post" enctype="multipart/form-data">
+		<h2>Upload image</h2>
+		<input type="file" name="news_item_image" id="news_item_image" class="image_form_data" /><br />
+		<input type="submit" name="submit" value="Upload" />
+	</form>
+</section>
+<script>
+$(function() {
+/*
+	$('#image_upload_form').submit(function(event) {
+        event.preventDefault();
+        process_form();
+    });	
+
+	function process_form()
+	{
+		$.ajax({
+			type: 'POST',
+			data: $(".image_form_data").serialize(),
+			url: 'images/upload',
+			success:function(msg) {
+				$("#form_holder").html(msg);
+			},
+			error:function(e) {}
+		});
+	}
+*/
+});
+</script>

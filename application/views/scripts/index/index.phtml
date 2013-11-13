@@ -1,0 +1,7 @@
+<?php 
+	if (!isset($_SESSION['auth_user'])) {
+		include_once 'includes/login.php';
+	} else {
+		include_once 'includes/dashboard.php';		
+	}
+?>

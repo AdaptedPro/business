@@ -1,0 +1,25 @@
+<section id="news_form_holder">
+	<?php include_once 'includes/news_form.php';?>
+</section>
+<script>
+$(function() {
+    $('#create_program_news_form').submit(function(event) {
+        event.preventDefault();
+        process_form();
+    });	
+
+	function process_form()
+	{
+		$.ajax({
+			type: 'POST',
+			data: $(".news_form_data").serialize(),
+			url: 'ajaxcreate',
+			success:function(msg) {
+				$("#news_form_holder").html(msg);
+			},
+			error:function(e) {}
+		});
+	}
+
+});
+</script>
