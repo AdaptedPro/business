@@ -10,8 +10,8 @@ class ImagesController extends Zend_Controller_Action
 
     public function indexAction()
     {
-       $this->view->image_list = $this->get_image_list();
-       echo $this->get_image_list();
+       //$this->view->image_list = $this->get_image_list();
+       //echo $this->get_image_list();
     }
     
     private function get_image_list()

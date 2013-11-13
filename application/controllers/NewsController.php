@@ -2,7 +2,7 @@
 
 class NewsController extends Zend_Controller_Action
 {
-
+	
     public function init()
     {
         /* Initialize action controller here */
@@ -10,7 +10,20 @@ class NewsController extends Zend_Controller_Action
 
     public function indexAction()
     {
-  	    	
+    	$news_model = new Application_Model_NewsMapper();
+    	$news = $news_model->get_all_news_items_from_db();
+    	
+    	$table_output = "";
+    	foreach ($news as $item)
+    	{
+    		$table_output .= "<tr> \n";
+    		$table_output .= "    <td>{$item['program_news_title']['S']}</td> \n";
+    		$table_output .= "    <td><img src='{$item['program_news_image']['S']}' alt='Story image.' /></td> \n";
+    		$table_output .= "    <td>{$item['program_news_details']['S']}</td> \n";
+    		$table_output .= "</tr> \n";
+    	}
+
+    	$this->view->table_output = $table_output;
     }
 
     public function createAction()

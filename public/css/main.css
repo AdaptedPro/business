@@ -72,17 +72,18 @@ body {
 /* ===================
     ALL: Orange Theme
    =================== */
-
+/*
 .header-container {
     border-bottom: 20px solid #e44d26;
 }
+*/
 
-.footer-container,
+/*.footer-container,*/
 .main aside {
     border-top: 20px solid #e44d26;
 }
 
-.header-container,
+/*.header-container,*/
 .footer-container,
 .main aside {
     background: #f16529;
@@ -97,21 +98,21 @@ body {
    ============== */
 
 nav ul {
-    margin: 0;
+    margin: 1em 0 0 0;
     padding: 0;
 }
 
 nav a {
     display: block;
     margin-bottom: 10px;
-    padding: 15px 0;
+    padding: 7px 0;
 
     text-align: center;
     text-decoration: none;
     font-weight: bold;
 
     color: white;
-    background: #e44d26;
+    background: #999;
 }
 
 nav a:hover,
@@ -142,7 +143,7 @@ nav a:hover {
 
 .footer-container footer {
     color: white;
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 /* ===============
@@ -156,9 +157,32 @@ nav a:hover {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+@import ('style.css');
 
 .error_msg {
 	color:#F00;
+}
+
+header .title a,
+header .title a:visited {
+	color:#FF9900;
+}
+
+header .title a {
+	text-decoration:none;
+	text-shadow: rgba(0, 0, 0, 1) 0px 1px 0px;	
+}
+
+nav a:hover {
+	text-decoration:none;
+	color:#FCC;
+}
+
+.footer-container {
+	position:fixed;
+	bottom:0;
+	z-index:2500;
+	width:100%;
 }
 
 
@@ -176,8 +200,18 @@ nav a:hover {
 /* ==========================================================================
    Media Queries
    ========================================================================== */
+@media only screen and (min-width: 480px) {   
+   header .title {
+   text-align:center;
+   }
+   
+}
 
 @media only screen and (min-width: 480px) {
+	
+   header .title {
+   text-align:center;
+   }	
 
 /* ====================
     INTERMEDIATE: Menu
@@ -187,7 +221,7 @@ nav a:hover {
         float: left;
         width: 27%;
         margin: 0 1.7%;
-        padding: 25px 2%;
+        padding: 10px 2%;
         margin-bottom: 0;
     }
 
@@ -218,7 +252,7 @@ nav a:hover {
     WIDE: CSS3 Effects
    ==================== */
 
-    .header-container,
+    /*.header-container,*/
     .main aside {
         -webkit-box-shadow: 0 5px 10px #aaa;
            -moz-box-shadow: 0 5px 10px #aaa;

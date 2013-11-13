@@ -1,4 +1,24 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>News</b> and script/action name <b>index</b></p>
-</div>
+<header>
+	<h2>News</h2>
+</header>
+<section id="view-content">
+	<table id="news_table" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Image</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php echo $this->table_output; ?>
+		</tbody>
+		<tfoot>
+		</tfoot>
+	</table>
+</section>
+<script>
+$(function() {
+    $("#news_table").tablesorter(); 
+}); 
+</script>

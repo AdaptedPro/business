@@ -5,12 +5,18 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        if(!isset($_SESSION['auth_user'])) {
+            include 'public/login.php';
+            die();
+        }
     }
 
     public function indexAction()
     {
-        // action body
+        if(!isset($_SESSION['auth_user'])) {
+            include 'public/login.php';
+            die();
+        }
     }
 
 
