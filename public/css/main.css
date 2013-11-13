@@ -185,8 +185,18 @@ nav a:hover {
 	width:100%;
 }
 
+.btn_link {
+    border-radius: 10px;
+    border: 0;
+    font-size: 1em;	
+    padding: 12px 20px 9px 20px;
+	background-color:#E9E9E9;
+	cursor:pointer;
+}
 
-
+.hidden {
+	display:none;
+}
 
 
 

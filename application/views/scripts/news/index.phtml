@@ -1,6 +1,12 @@
 <header>
 	<h2>News</h2>
+	<span id="form_link" class="btn_link" data-state="1">Create new +</span>
 </header>
+
+<section id="news_form_holder">
+	<?php include_once 'includes/news_form.php';?>
+</section>
+
 <section id="view-content">
 	<table id="news_table" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
 		<thead>
@@ -19,6 +25,36 @@
 </section>
 <script>
 $(function() {
-    $("#news_table").tablesorter(); 
+	$("#news_form_holder").hide();
+	$("#form_link").click(function() {
+		if ($(this).attr("data-state") == 1 ) {
+			$("#news_form_holder").slideDown();
+			$(this).attr("data-state", 2);
+			$(this).html("Cancel");
+		} else {
+			$("#news_form_holder").slideUp();
+			$(this).attr("data-state", 1);
+			$(this).html("Create new +");
+		}		
+	});
+    $("#news_table").tablesorter();
+
+    $('#create_program_news_form').submit(function(event) {
+        event.preventDefault();
+        process_form();
+    });	
+
+	function process_form()
+	{
+		$.ajax({
+			type: 'POST',
+			data: $(".news_form_data").serialize(),
+			url: 'ajaxcreate',
+			success:function(msg) {
+				$("#news_form_holder").html(msg);
+			},
+			error:function(e) {}
+		});
+	}     
 }); 
 </script>
