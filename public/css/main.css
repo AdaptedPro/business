@@ -78,6 +78,8 @@ body {
 }
 */
 
+.main-container { margin-bottom:3em; }
+
 /*.footer-container,*/
 .main aside {
     border-top: 20px solid #e44d26;
@@ -219,6 +221,7 @@ textarea {
 	background:#E9E9E9;
 	border-radius:15px;
 	color:#000;	
+	outline: none;
 }
 
 .browse { 
