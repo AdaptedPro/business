@@ -113,6 +113,10 @@ nav a {
 
     color: white;
     background: #999;
+    border-radius: 10px;
+    border: 0;
+    font-size: 1em;	
+    padding: 12px 20px 9px 20px;
 }
 
 nav a:hover,
@@ -190,7 +194,8 @@ nav a:hover {
     border: 0;
     font-size: 1em;	
     padding: 12px 20px 9px 20px;
-	background-color:#E9E9E9;
+    color:#FFF;
+	background-color:#FF6600;
 	cursor:pointer;
 }
 
@@ -198,14 +203,45 @@ nav a:hover {
 	display:none;
 }
 
+#news_form_holder {
+	margin-bottom:1em;
+}
 
+textarea {
+    resize: none;
+}
 
+#create_program_news_form input[type="text"],
+#create_program_news_form textarea {
+	width:90%;
+	border:2px solid #999;
+	padding:10px 20px; 
+	background:#E9E9E9;
+	border-radius:15px;
+	color:#000;	
+}
 
+.browse { 
+    border-radius: 10px;
+    border: 0;
+    font-size: 1em;
+    padding: 12px 20px 9px 20px;
+    line-height: 1em; 
+    cursor: pointer; 
+    color: #333;	
+	background-color:#E9E9E9; 
+}
 
-
-
-
-
+.custom_btn {
+    border-radius: 10px;
+    border: 0;
+    font-size: 1em;
+    padding: 12px 20px 9px 20px;
+    line-height: 1em; 
+    cursor: pointer; 
+    color: #FFF;
+    background:#333; 
+}
 
 /* ==========================================================================
    Media Queries

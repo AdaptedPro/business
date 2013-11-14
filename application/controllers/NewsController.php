@@ -12,6 +12,18 @@ class NewsController extends Zend_Controller_Action
     	$news_model = new Application_Model_NewsMapper();
     	$news = $news_model->get_all_news_items_from_db();
     	
+    	$this->view->error_array['title'];
+    	$this->view->error_array['summary'];
+    	$this->view->error_array['details'];
+    	//$this->view->error_array['public'];
+    	//$this->view->error_array['image'];
+    	
+    	$this->view->news_item_title;
+    	$this->view->news_item_summary;
+    	$this->view->news_item_details;
+    	
+    	$this->view->image_select = $this->build_image_select();
+    	
     	$table_output = "";
     	foreach ($news as $item)
     	{
@@ -110,6 +122,19 @@ class NewsController extends Zend_Controller_Action
     			print($EndpointArn . " - Failed: " . $e->getMessage() . "!\n");
     		}
     	}    	
+    }
+    
+    private function build_image_select()
+    {
+    	$image_model = new Application_Model_ImagesMapper();
+    	$image_iterator = $image_model->get_all_images_from_bucket();
+    	 
+    	$output = "<select> \n";
+    	foreach ($image_iterator as $object) {
+    		$output.= "<option><img src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key'] . "' /></option>\n";
+    	}
+    	$output .= "</select> \n";
+    	return $output;    	
     }
     
     public function feedAction()

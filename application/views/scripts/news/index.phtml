@@ -1,6 +1,6 @@
 <header>
-	<h2>News</h2>
-	<span id="form_link" class="btn_link" data-state="1">Create new +</span>
+	<h2>News Item</h2>
+	<span id="form_link" class="btn_link" data-state="1">Create new item</span>
 </header>
 
 <section id="news_form_holder">
@@ -8,6 +8,7 @@
 </section>
 
 <section id="view-content">
+<br />
 	<table id="news_table" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
 		<thead>
 			<tr>
@@ -25,7 +26,9 @@
 </section>
 <script>
 $(function() {
-	$("#news_form_holder").hide();
+	//$("#news_form_holder").hide();
+	$('#browse_tool').hide();
+	
 	$("#form_link").click(function() {
 		if ($(this).attr("data-state") == 1 ) {
 			$("#news_form_holder").slideDown();
@@ -34,10 +37,56 @@ $(function() {
 		} else {
 			$("#news_form_holder").slideUp();
 			$(this).attr("data-state", 1);
-			$(this).html("Create new +");
+			$(this).html("Create new item");
 		}		
 	});
+    /*
     $("#news_table").tablesorter();
+    
+	$('#news_item_summary').jqEasyCounter({
+	    'maxChars': 50,
+	    'maxCharsWarning': 40,
+	    'msgFontSize': '12px',
+	    'msgFontColor': '#000',
+	    'msgFontFamily': 'Arial',
+	    'msgTextAlign': 'left',
+	    'msgWarningColor': '#F00',
+	    'msgAppendMethod': 'insertBefore'              
+	});
+    */
+
+	if ($("#news_item_image")[0].files) {
+		$("#news_item_image").bind('change', function () {
+			var allow	= ["bmp","gif","pdf","jpg","jpeg"];
+			var str		= this.files[0].type;
+			var substr	= str.split('/');
+			var ftype	= substr[1];
+			var fsize	= this.files[0].size;
+ 
+			if ($.inArray(ftype, allow) > -1 ) {
+				if (fsize > 1048576) {
+					$("#news_item_image").val('');
+					$("#f_msg").html("<em><u>File size too large must be 1.5MB.</u></em>");
+				} else {
+					$("#f_msg").html("");
+				}
+			} else {
+				$("#news_item_image").val('');
+				$("#f_msg").html("<em><u>Invalid file type.</u></em>");
+			}
+		});
+	}
+
+	$('.image_source_radio').change(function() {
+		if ($(this).val() == 'upload') {
+			$('#browse_tool').hide();
+			$('#upload_tool').fadeIn();
+		} else {
+			$('#upload_tool').hide();
+			$('#browse_tool').fadeIn();
+			$("#f_msg").html("");
+		}
+	});    
 
     $('#create_program_news_form').submit(function(event) {
         event.preventDefault();
@@ -55,6 +104,6 @@ $(function() {
 			},
 			error:function(e) {}
 		});
-	}     
+	}	     
 }); 
 </script>
