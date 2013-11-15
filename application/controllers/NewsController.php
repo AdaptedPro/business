@@ -4,13 +4,20 @@ class NewsController extends Zend_Controller_Action
 	
     public function init()
     {
+    	if (isset($_SESSION['timeout'])) {
+    		if ($_SESSION['timeout'] + 30 * 60 < time()) {
+    			header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
 
+    		}
+    	}
     }
 
     public function indexAction()
     {   
     	if(!isset($_SESSION['auth_user'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	} else {
+   		
     	}
     	   	 	
     	$this->view->error_array['title'];
@@ -115,14 +122,16 @@ class NewsController extends Zend_Controller_Action
     	
     	$image_model = new Application_Model_ImagesMapper();
     	$image_iterator = $image_model->get_all_images_from_bucket();
- 		$i=0;
+ 		/*
+    	$i=0;
     	$output = "<select id=\"lib_images\" class=\"image-picker show-html\"> \n";
     	foreach ($image_iterator as $object) {
     		$i++;
     		$output.= "\r <option value='Image_{$i}' data-img-src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key']."'>Image_{$i}</option>\n";
     	}	
     	$output .= "</select> \n";
-    	return $output;   
+    	return $output;
+    	*/   
     }
     
     private function build_news_data_table()

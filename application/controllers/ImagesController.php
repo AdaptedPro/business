@@ -7,13 +7,19 @@ class ImagesController extends Zend_Controller_Action
     {
         if(!isset($_SESSION['auth_user'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	} else {
+    		if (isset($_SESSION['timeout'])) {
+    			if ($_SESSION['timeout'] + 30 * 60 < time()) {
+    				header( "Location: {$this->view->baseUrl()}index/logout" );
+    			}
+    		}    		
     	}
     }
 
     public function indexAction()
     {
        //$this->view->image_list = $this->get_image_list();
-       echo $this->get_image_list();
+       //echo $this->get_image_list();
     }
     
     private function get_image_list()

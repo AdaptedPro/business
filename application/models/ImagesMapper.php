@@ -1,5 +1,8 @@
 <?php
-
+// use Aws\Common\Enum\Region;
+// //use Aws\Common\Aws;
+// use Aws\S3\Enum\CannedAcl;
+use Aws\S3\Exception\S3Exception;
 #For uploads into the S3 bucket
 use Guzzle\Http\EntityBody;
 
@@ -31,7 +34,7 @@ class Application_Model_ImagesMapper {
 		$iterator = $this->s3Client->getIterator('ListObjects', array(
 				'Bucket' => 'rccsss',
 		));
-		return $iterator;
+		return $iterator;		
 	}
 	
 	public function upload_image_to_bucket($key,$path)
