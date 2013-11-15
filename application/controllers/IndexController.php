@@ -27,7 +27,8 @@ class IndexController extends Zend_Controller_Action
 			} else {
 				$this->view->login_message = "<span class='error'>Invalid username or password!</span>";
 			}
-        }             
+        }
+        $this->view->placeholder('aside_content')->set("");
     }
     
     public function logoutAction()

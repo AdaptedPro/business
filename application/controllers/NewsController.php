@@ -16,10 +16,7 @@ class NewsController extends Zend_Controller_Action
     {   
     	if(!isset($_SESSION['auth_user'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
-    	} else {
-   		
-    	}
-    	   	 	
+    	} 	
     	$this->view->error_array['title'];
     	$this->view->error_array['summary'];
     	$this->view->error_array['details'];
@@ -29,6 +26,8 @@ class NewsController extends Zend_Controller_Action
     	$this->view->news_item_details	= $_POST ? $_POST['news_item_details'] : "";
     	$this->view->image_select		= $this->build_image_select();
     	$this->view->table_output		= $this->build_news_data_table();
+    	//; 
+    	$this->view->placeholder('aside_content')->set($this->get_aside_content());
     }
     
     public function ajaxcreateAction()
@@ -36,6 +35,31 @@ class NewsController extends Zend_Controller_Action
     	$this->check_form_errors($_POST);
     	$this->_helper->layout()->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	 	
+    }
+    
+    private function get_aside_content()
+    {
+//     	ob_start();
+//     	$aside = include 'application/views/scripts/news/includes/news_form.php';
+//     	return $aside;
+//     	ob_end_clean();
+
+    	$output = "    	
+    	<aside>
+    	<p>
+    	<input type=\"radio\" class=\"image_source_radio\" name=\"image_source\" checked=\"checked\" value=\"upload\" />&nbsp; Upload image<br />
+    	<input type=\"radio\" class=\"image_source_radio\" name=\"image_source\"  value=\"browse\" />&nbsp; Choose from images<br />
+    	</p>
+    	<div id=\"upload_tool\">
+    	<input type=\"file\" id=\"news_item_image\" name=\"news_item_image\" class=\"browse\" />
+    	<br /><small id=\"f_msg\"></small>
+    	</div>
+    	<div id=\"browse_tool1\">
+
+    	</div>
+    	</aside> \n";
+    	
+    	return $output;
     }
     
     private function check_form_errors($DATA)
@@ -115,14 +139,9 @@ class NewsController extends Zend_Controller_Action
     
     private function build_image_select()
     {
-    	
-//     	$ch = curl_init();
-//     	curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-//     	curl_exec($ch);    	
-    	
     	$image_model = new Application_Model_ImagesMapper();
     	$image_iterator = $image_model->get_all_images_from_bucket();
- 		/*
+
     	$i=0;
     	$output = "<select id=\"lib_images\" class=\"image-picker show-html\"> \n";
     	foreach ($image_iterator as $object) {
@@ -130,8 +149,7 @@ class NewsController extends Zend_Controller_Action
     		$output.= "\r <option value='Image_{$i}' data-img-src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key']."'>Image_{$i}</option>\n";
     	}	
     	$output .= "</select> \n";
-    	return $output;
-    	*/   
+    	return $output;  
     }
     
     private function build_news_data_table()
