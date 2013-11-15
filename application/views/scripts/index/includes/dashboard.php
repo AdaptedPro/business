@@ -1,1 +1,1 @@
-<h1>Hello World - Index</h1>
+<h1>Dashboard</h1>

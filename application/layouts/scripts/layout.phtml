@@ -9,7 +9,7 @@
         <title>RCC - Student Support Services</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width" />
-        <link rel="stylesheet" href="<?php echo $this->baseUrl('public/css/style.css'); ?>" />
+
         <link rel="stylesheet" href="<?php echo $this->baseUrl('public/css/normalize.min.css'); ?>" />
         <link rel="stylesheet" href="<?php echo $this->baseUrl('public/css/main.css'); ?>" />
         <script src="<?php echo $this->baseUrl('public/js/jquery.min.js'); ?>" type="text/javascript"></script>
@@ -25,13 +25,15 @@
         <div class="header-container">
             <header class="wrapper clearfix">
                 <h1 class="title"><a href="<?php echo $this->baseUrl(); ?>">SSS News Push Manager</a></h1>
+                <?php if(isset($_SESSION['auth_user'])) { ?>
                 <nav>
                     <ul>
                         <li><a href="<?php echo $this->baseUrl(); ?>/news">News</a></li>
                         <li><a href="<?php echo $this->baseUrl(); ?>/images">Images</a></li>
-                        <li><a href="<?php echo $this->baseUrl(); ?>/users">username</a></li>
+                        <li><a href="<?php echo $this->baseUrl(); ?>/index/logout">Log Out</a></li>
                     </ul>
                 </nav>
+                <?php } ?>
             </header>
         </div>
 

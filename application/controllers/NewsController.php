@@ -4,43 +4,25 @@ class NewsController extends Zend_Controller_Action
 	
     public function init()
     {
-        /* Initialize action controller here */
+
     }
 
     public function indexAction()
-    {
-    	$news_model = new Application_Model_NewsMapper();
-    	$news = $news_model->get_all_news_items_from_db();
-    	
+    {   
+    	if(!isset($_SESSION['auth_user'])) {
+    		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	}
+    	   	 	
     	$this->view->error_array['title'];
     	$this->view->error_array['summary'];
     	$this->view->error_array['details'];
-    	//$this->view->error_array['public'];
-    	//$this->view->error_array['image'];
-    	
-    	$this->view->news_item_title;
-    	$this->view->news_item_summary;
-    	$this->view->news_item_details;
-    	
-    	$this->view->image_select = $this->build_image_select();
-    	
-    	$table_output = "";
-    	foreach ($news as $item)
-    	{
-    		$table_output .= "<tr> \n";
-    		$table_output .= "    <td>{$item['program_news_title']['S']}</td> \n";
-    		$table_output .= "    <td><img src='{$item['program_news_image']['S']}' alt='Story image.' /></td> \n";
-    		$table_output .= "    <td>{$item['program_news_details']['S']}</td> \n";
-    		$table_output .= "</tr> \n";
-    	}
-
-    	$this->view->table_output = $table_output;
+    	//$this->view->error_array['image'];    	
+    	$this->view->news_item_title	= $_POST ? $_POST['news_item_title'] : "";
+    	$this->view->news_item_summary	= $_POST ? $_POST['news_item_summary'] : "";
+    	$this->view->news_item_details	= $_POST ? $_POST['news_item_details'] : "";
+    	$this->view->image_select		= $this->build_image_select();
+    	$this->view->table_output		= $this->build_news_data_table();
     }
-
-    public function createAction()
-    {
-    	// action body
-    } 
     
     public function ajaxcreateAction()
     {
@@ -126,15 +108,40 @@ class NewsController extends Zend_Controller_Action
     
     private function build_image_select()
     {
+    	
+    	$ch = curl_init();
+    	curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+    	curl_exec($ch);    	
+    	
     	$image_model = new Application_Model_ImagesMapper();
     	$image_iterator = $image_model->get_all_images_from_bucket();
-    	 
+    	var_dump($image_iterator);
+    	/*
     	$output = "<select> \n";
     	foreach ($image_iterator as $object) {
-    		$output.= "<option><img src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key'] . "' /></option>\n";
+    		//$output.= "<option><img src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key'] . "' /></option>\n";
     	}
+    	*/	
     	$output .= "</select> \n";
-    	return $output;    	
+    	return $output;   
+    }
+    
+    private function build_news_data_table()
+    {
+    	$news_model = new Application_Model_NewsMapper();
+    	$news = $news_model->get_all_news_items_from_db();
+    	
+    	$output = "";
+    	foreach ($news as $item)
+    	{
+    		$output .= "<tr> \n";
+    		$output .= "    <td>{$item['program_news_title']['S']}</td> \n";
+    		$output .= "    <td><img src='{$item['program_news_image']['S']}' alt='Story image.' /></td> \n";
+    		$output .= "    <td>{$item['program_news_details']['S']}</td> \n";
+    		$output .= "</tr> \n";
+    	}
+    	    	
+    	return $output;
     }
     
     public function feedAction()

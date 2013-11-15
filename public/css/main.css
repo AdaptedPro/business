@@ -108,11 +108,9 @@ nav a {
     display: block;
     margin-bottom: 10px;
     padding: 7px 0;
-
     text-align: center;
     text-decoration: none;
     font-weight: bold;
-
     color: white;
     background: #999;
     border-radius: 10px;
@@ -128,6 +126,7 @@ nav a:visited {
 
 nav a:hover {
     text-decoration: underline;
+    background:#666;
 }
 
 /* ==============
@@ -181,7 +180,6 @@ header .title a {
 
 nav a:hover {
 	text-decoration:none;
-	color:#FCC;
 }
 
 .footer-container {
@@ -205,6 +203,8 @@ nav a:hover {
 	display:none;
 }
 
+.error { color:#FF0000;}
+
 #news_form_holder {
 	margin-bottom:1em;
 }
@@ -213,6 +213,8 @@ textarea {
     resize: none;
 }
 
+#signin_form input[type="text"],
+#signin_form input[type="password"],
 #create_program_news_form input[type="text"],
 #create_program_news_form textarea {
 	width:90%;

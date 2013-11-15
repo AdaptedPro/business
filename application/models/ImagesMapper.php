@@ -1,5 +1,6 @@
 <?php
 
+#For uploads into the S3 bucket
 use Guzzle\Http\EntityBody;
 
 class Application_Model_ImagesMapper {
@@ -26,12 +27,26 @@ class Application_Model_ImagesMapper {
 	}
 	
 	public function get_all_images_from_bucket()
-	{
+	{	
 		$iterator = $this->s3Client->getIterator('ListObjects', array(
 				'Bucket' => 'rccsss',
 		));
-
+		foreach ($iterator as $object) {
+			echo $object['Key'] . "\n";
+		}
 		return $iterator;
+		/*
+		$result = $this->s3Client->listObjects(array(
+				// Bucket is required
+				'Bucket' => 'rccsss',
+				'Delimiter' => '%i%',
+				//'Marker' => 'string',
+				'MaxKeys' => 1000,
+				//'Prefix' => 'string',
+		));	
+		return $result;
+		*/
+		
 	}
 	
 	public function upload_image_to_bucket($key,$path)
@@ -45,6 +60,5 @@ class Application_Model_ImagesMapper {
 					);
 		
 		return $result["ObjectURL"];
-	}
-		
+	}		
 }

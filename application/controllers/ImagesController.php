@@ -5,13 +5,15 @@ class ImagesController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        if(!isset($_SESSION['auth_user'])) {
+    		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	}
     }
 
     public function indexAction()
     {
        //$this->view->image_list = $this->get_image_list();
-       //echo $this->get_image_list();
+       echo $this->get_image_list();
     }
     
     private function get_image_list()

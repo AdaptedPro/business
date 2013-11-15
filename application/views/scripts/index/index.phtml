@@ -1,5 +1,5 @@
 <?php 
-	if (!isset($_SESSION['auth_user'])) {
+	if (!isset($_SESSION['auth_user']['username'])) {
 		include_once 'includes/login.php';
 	} else {
 		include_once 'includes/dashboard.php';		
