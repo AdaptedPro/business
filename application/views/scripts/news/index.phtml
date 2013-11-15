@@ -15,4 +15,9 @@
 	<br />
 	<?php include_once 'includes/news_table.php';?>
 </section>
-<script src="<?php echo $this->baseUrl('public/js/news_default.js'); ?>" type="text/javascript"></script> 
+<script src="<?php echo $this->baseUrl('public/js/news_default.js'); ?>" type="text/javascript"></script>
+<script>
+$(function() {
+	$("#lib_images").imagepicker();
+});
+</script> 

@@ -109,19 +109,18 @@ class NewsController extends Zend_Controller_Action
     private function build_image_select()
     {
     	
-    	$ch = curl_init();
-    	curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-    	curl_exec($ch);    	
+//     	$ch = curl_init();
+//     	curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+//     	curl_exec($ch);    	
     	
     	$image_model = new Application_Model_ImagesMapper();
     	$image_iterator = $image_model->get_all_images_from_bucket();
-    	var_dump($image_iterator);
-    	/*
-    	$output = "<select> \n";
+ 		$i=0;
+    	$output = "<select id=\"lib_images\" class=\"image-picker show-html\"> \n";
     	foreach ($image_iterator as $object) {
-    		//$output.= "<option><img src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key'] . "' /></option>\n";
-    	}
-    	*/	
+    		$i++;
+    		$output.= "\r <option value='Image_{$i}' data-img-src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key']."'>Image_{$i}</option>\n";
+    	}	
     	$output .= "</select> \n";
     	return $output;   
     }
