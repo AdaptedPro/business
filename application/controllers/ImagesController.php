@@ -18,8 +18,7 @@ class ImagesController extends Zend_Controller_Action
 
     public function indexAction()
     {
-       //$this->view->image_list = $this->get_image_list();
-       //echo $this->get_image_list();
+
     }
     
     private function get_image_list()
@@ -29,9 +28,7 @@ class ImagesController extends Zend_Controller_Action
     	
     	$output = "";
     	foreach ($image_iterator as $object) {
-//     		/https://rccsss.s3-us-west-2.amazonaws.com/2013-11-12_21-54-03_photo.JPG
     		$output.= "<img src='https://rccsss.s3-us-west-2.amazonaws.com/".$object['Key'] . "' /><br />\n";
-    		//var_dump($object);
     	}
 
     	return $output;   	

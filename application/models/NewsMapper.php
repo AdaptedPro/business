@@ -61,6 +61,15 @@ class Application_Model_NewsMapper {
 	
 	public function add_news_item_to_db($DATA)
 	{
+		//This will add item into NoSQL DB
+		if ( isset($DATA['news_item_image']) ) {
+			$image = $DATA['news_item_image'];
+		}
+		
+		if ( isset($DATA['news_item_lib_image'])) {
+			$image = $DATA['news_item_lib_image'];
+		}
+				
 		date_default_timezone_set('America/Los_Angeles');
 		$result = $this->dbClient->putItem(array(
 				'TableName' => 'rcc_sss_program_news_data',
@@ -71,7 +80,7 @@ class Application_Model_NewsMapper {
 						'program_news_title'				=> $DATA['news_item_title'],
 						'program_news_summary'				=> $DATA['news_item_summary'],
 						'program_news_details'				=> $DATA['news_item_details'],
-						'program_news_image'				=> $DATA['news_item_image'] ? $DATA['news_item_image'] : 'https://scontent-a-pao.xx.fbcdn.net/hphotos-ash3/p480x480/1170703_541495202570684_2024681942_n.jpg',
+						'program_news_image'				=> $image ? $image : 'https://scontent-a-pao.xx.fbcdn.net/hphotos-ash3/p480x480/1170703_541495202570684_2024681942_n.jpg',
 						'public'							=> $DATA['news_item_is_public']
 				)),
 				'ReturnConsumedCapacity' => 'TOTAL'
