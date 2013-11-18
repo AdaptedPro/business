@@ -53,7 +53,7 @@ $(function() {
     function openAlert()
     {
     	var x;
-    	var r=confirm("By 'OK', news items using using this image will use the default image instead.");
+    	var r=confirm("By clicking 'OK', news items using using this image will use the default image instead.");
     	if (r==true) {
     		$('#loader2').fadeIn();
     		delete_action();

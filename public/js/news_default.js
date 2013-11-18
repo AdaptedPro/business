@@ -132,7 +132,7 @@ $(function() {
         if (img_upload_state == true) {  
         	if ($('#news_item_lib_image').val() == '' || $('#news_item_lib_image').val() == null) {
         		event.preventDefault();
-        		alert('Please choose an image!1');
+        		alert('Please choose an image!');
         	} else {
 	        	event.preventDefault();
 	        	process_form(); 
@@ -140,7 +140,7 @@ $(function() {
         	}       	
         } else {
         	if ($('#news_item_image').val() == '' || $('#news_item_image').val() == null) {
-	        	alert('Please choose an image!2');
+	        	alert('Please choose an image!');
         		event.preventDefault();        		
         	} else {
 				$('#loader').fadeIn();
