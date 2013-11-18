@@ -10,9 +10,7 @@
 		<tbody>
 			<?php echo $this->table_output; ?>
 		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="4">
+	</table>
 					<div id="pager" class="pager">
 						<form>
 							<img src="<?php echo $this->baseUrl('public/images/pager/icons/first.png');?>" class="first"/>
@@ -20,23 +18,21 @@
 							<input type="text" class="pagedisplay"/>
 							<img src="<?php echo $this->baseUrl('public/images/pager/icons/next.png');?>" class="next"/>
 							<img src="<?php echo $this->baseUrl('public/images/pager/icons/last.png');?>" class="last"/>
+							<!-- 
 							<select class="pagesize">
-								<option selected="selected"  value="10">10</option>
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option  value="40">40</option>
+								<option selected="selected" value="5">5</option>
+								<option value="10">10</option>
+								<option value="15">15</option>
+								<option  value="20">20</option>
 							</select>
+							-->
 						</form>	
-					</div>
-				</td>
-			</tr>
-    	</tfoot>
-	</table>
+					</div>	
 	<script src="<?php echo $this->baseUrl('public/js/jquery.tablesorter.js'); ?>" type="text/javascript"></script>
 	<script>
 	$(function(){
 	   $("#news_table").tablesorter({ 
 	        headers: {1: {sorter: false},3: {sorter: false}} 
-	    });//.tablesorterPager({container: $("#pager")}); 
+	    }).tablesorterPager({container: $("#pager")}); 
 	});
 	</script>

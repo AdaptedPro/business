@@ -46,5 +46,12 @@ class Application_Model_ImagesMapper {
 					);
 		
 		return $result["ObjectURL"];
-	}		
+	}	
+
+	public function delete_images_from_bucket($key)
+	{
+		$result = $this->s3Client->deleteObject(array(
+				'Bucket' => 'rccsss',
+				'Key' => $key));
+	}
 }

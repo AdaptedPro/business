@@ -9,12 +9,15 @@
         <title>RCC - Student Support Services</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width" />
-		<link rel="stylesheet" href="<?php echo $this->baseUrl('public/css/blue/style.css'); ?>" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl('public/css/jquery.tablesorter.pager.css'); ?>" />
         <link rel="stylesheet" href="<?php echo $this->baseUrl('public/css/normalize.min.css'); ?>" />
         <link rel="stylesheet" href="<?php echo $this->baseUrl('public/css/main.css'); ?>" />
         <script src="<?php echo $this->baseUrl('public/js/jquery.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo $this->baseUrl('public/js/jquery-migrate-1.0.0.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo $this->baseUrl('public/js/jquery.jqEasyCharCounter.min.js'); ?>" type="text/javascript"></script>
 		<script src="<?php echo $this->baseUrl('public/js/jquery.tablesorter.js'); ?>" type="text/javascript"></script>
+		<script src="<?php echo $this->baseUrl('public/js/jquery.tablesorter.widgets.js'); ?>" type="text/javascript"></script>
+		<script src="<?php echo $this->baseUrl('public/js/jquery.tablesorter.pager.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo $this->baseUrl('public/js/vendor/modernizr-2.6.2.min.js'); ?>" type="text/javascript"></script>                 
     </head>
     <body>
@@ -28,8 +31,8 @@
                 <?php if(isset($_SESSION['auth_user'])) { ?>
                 <nav>
                     <ul>
-                        <li><a href="<?php echo $this->baseUrl(); ?>/news">News</a></li>
-                        <li><a href="<?php echo $this->baseUrl(); ?>/images">Images</a></li>
+                        <li><a <?php if($_SERVER['REQUEST_URI'] == $this->baseUrl()."/news") echo "class=\"selected\" "; ?>href="<?php echo $this->baseUrl(); ?>/news">News</a></li>
+                        <li><a <?php if($_SERVER['REQUEST_URI'] == $this->baseUrl()."/images") echo "class=\"selected\" "; ?>href="<?php echo $this->baseUrl(); ?>/images">Images</a></li>
                         <li><a href="<?php echo $this->baseUrl(); ?>/index/logout">Log Out</a></li>
                     </ul>
                 </nav>

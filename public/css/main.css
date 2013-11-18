@@ -132,6 +132,10 @@ nav a:hover {
     background:#666;
 }
 
+nav a.selected {
+    background:#F90;	
+}
+
 /* ==============
     MOBILE: Main
    ============== */
@@ -215,10 +219,16 @@ textarea {
     resize: none;
 }
 
+input[type="submit"],
+input[type="reset"] {
+	outline:none;
+}
+
 #signin_form input[type="text"],
 #signin_form input[type="password"],
 #create_program_news_form input[type="text"],
-#create_program_news_form textarea {
+#create_program_news_form textarea,
+#image_delete_form input[type="text"] {
 	width:90%;
 	border:2px solid #999;
 	padding:10px 20px; 
@@ -251,9 +261,9 @@ textarea {
 }
 
 #news_table tbody img {
-	width:150px;
+	width:auto;
 	height:auto;
-	max-height:150px;
+	max-height:175px;
 	min-height:50px;
 }	
 
@@ -286,12 +296,25 @@ Browse Tool
 }
 
 #browse_tool ul li:hover { background-color:#b3d4fc; }
+#browse_tool ul li:hover .action_holder { display:block; }
 #browse_tool ul li.selected { background-color:#FF9900; }
 #browse_tool ul li img {
 	width:150px;
 	height:auto;
 	max-height:150px;
 	min-height:50px;
+}
+
+.action_holder {
+	position:absolute;
+	background-color:#FF0000;
+	padding:2px 6px;
+	display:none;
+}
+
+.action_holder a {
+	color:white;
+	text-decoration:none;
 }
 
 .action a { 
@@ -302,6 +325,54 @@ Browse Tool
 .show { background-color: #009900; }
 .edit { background-color: #FFCC00; }
 .delete { background-color: #FF0000; }
+
+
+table.tablesorter {
+	border: 1px solid #AAA;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	font-size: .825em;
+	width: 100%;
+	text-align: left;	
+}
+
+table.tablesorter th,
+table.tablesorter td {
+	border: 1px solid #AAA;	
+}
+
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #e9e9e9;
+	border: 1px solid #AAA;
+	font-size: 8pt;
+	padding: 4px;
+}
+
+table.tablesorter thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+background-color: #8dbdd8;
+}
 
 /* ==========================================================================
    Media Queries
