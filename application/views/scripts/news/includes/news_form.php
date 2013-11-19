@@ -7,23 +7,23 @@
 		<textarea id="news_item_summary" name="news_item_summary" class="news_form_data" rows="5" placeholder="Summary..." wrap="hard" required><?php echo $this->news_item_summary; ?></textarea>
 		</p>	
 		
-		<p><?php echo $this->error_array['details'] ? $this->error_array['details'].'<br />' : ""; ?><br />
+		<p><?php echo $this->error_array['details'] ? $this->error_array['details'].'<br />' : ""; ?>
 		<textarea id="news_item_details" name="news_item_details" class="news_form_data" rows="10" placeholder="Details..." wrap="hard" required><?php echo $this->news_item_details; ?></textarea>
 		</p>
 		
 		<p>
 		<label for="news_item_is_public">Make public:</label>&nbsp;
 			<select id="news_item_is_public" name="news_item_is_public" class="news_form_data">
-				<option value="Y">Yes</option>
-				<option value="N">No</option>
+				<option value="Y"<?php if ($this->news_item_public == 'Y') { echo " selected='selected'"; }?>>Yes</option>
+				<option value="N"<?php if ($this->news_item_public == 'N') { echo " selected='selected'"; }?>>No</option>
 			</select>
 		</p>
 		
-		<p><p><?php echo $this->error_array['image'] ? $this->error_array['image'].'<br />' : ""; ?>
-      	<input type="radio" class="image_source_radio" name="image_source" checked="checked" value="upload" class="news_form_data" />&nbsp; Upload image<br />
-      	<input type="radio" class="image_source_radio" name="image_source"  value="browse" class="news_form_data" />&nbsp; Choose from images<br />
+		<p><?php echo $this->error_array['image'] ? $this->error_array['image'].'<br />' : ""; ?>
+      	<input type="radio" class="image_source_radio" name="image_source" <?php echo $this->news_item_id ? '' : ' checked="checked" ';?>value="upload" class="news_form_data" />&nbsp; Upload image<br />
+      	<input type="radio" class="image_source_radio" name="image_source" <?php echo $this->news_item_id ? 'checked="checked" ' : '';?>value="browse" class="news_form_data" />&nbsp; Choose from images<br />
 		</p>
-		
+
 		<div id="upload_tool">
 			<input type="file" id="news_item_image" name="news_item_image" class="browse"/>
 		    <br /><small id="f_msg"></small>
@@ -42,3 +42,15 @@
 		<input type="reset" name="reset" id="reset" value="Clear" class="custom_btn" />
 		</p>
 	</form>
+	<?php if ($this->news_item_id!='' || $this->news_item_id != NULL) {?>
+	<script type="text/javascript">
+	<!--
+	$(function() {
+		setTimeout(fake_change,500);
+		function fake_change() {
+			$(".image_source_radio").change();
+		}
+	});
+	//-->
+	</script>
+	<?php } ?>

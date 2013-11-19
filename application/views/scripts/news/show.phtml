@@ -1,0 +1,56 @@
+<header>
+	<h2><?php echo $this->news_item_title; ?></h2>
+</header>
+
+<section>
+	<img class="news_image" src='<?php echo $this->news_item_image; ?>' alt='' />
+</section>
+
+<section>
+	<p><strong>Summary</strong><br /><?php echo $this->news_item_summary; ?></p>
+</section>
+
+<section>
+	<p><strong>Description</strong><br /><?php echo $this->news_item_details; ?></p>
+</section>
+
+<footer>
+	<div id="loader"><img src="<?php echo $this->baseUrl('public/images/ajax-loader.gif')?>" alt="Loading" /></div>
+	<a href="<?php echo $this->baseUrl(); ?>/news/edit/id/<?php echo $this->news_item_id; ?>"><span class="custom_btn">Edit</span></a> &nbsp; <span class="custom_btn" id="delete_btn" delete-id="<?php echo $this->news_item_id; ?>">Delete</span>
+</footer>
+<script>
+$(function() {
+	$('#delete_btn').click(function () {
+		open_alert($(this).attr('delete-id'));
+	});
+
+	$('#loader').hide();
+    $('.delete').click(function() {
+    	var delete_id = "";
+			delete_id = $(this).parent().parent().attr('data-id');
+		open_alert(delete_id);
+    });
+
+    function open_alert(dId)
+    {
+    	var x;
+    	var r=confirm("Are you sure you want to delete this news item? This can not be undone.");
+    	if (r==true) {
+    		$('#loader').fadeIn();
+    		delete_action(dId);
+    	} 
+    }
+
+    function delete_action(d)
+    {
+		$.ajax({
+			type:'GET',
+			url:'../../delete/id/'+d,
+			success:function(msg) {
+				$('#loader').hide();
+				window.location.replace('<?php echo $this->baseUrl(); ?>');
+			}
+		});
+    }     	
+});
+</script>

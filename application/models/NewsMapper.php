@@ -40,6 +40,20 @@ class Application_Model_NewsMapper {
 	{
 	
 	}
+	
+	public function get_single_news_item_from_db($key)
+	{
+		$result = $this->dbClient->getItem(array(
+		    'ConsistentRead'	=> true,
+		    'TableName'			=> 'rcc_sss_program_news_data',
+		    'Key'				=> array(
+		    		'rcc_sss_program_news_data_type' => array('S' => 'news'),
+		    		'rcc_sss_program_news_data_id' => array('S' => $key),
+		    )
+		));
+
+		return $result;
+	}
 
 	public function get_all_news_items_from_db()
 	{	 
@@ -94,8 +108,18 @@ class Application_Model_NewsMapper {
 	
 	}
 
-	public function delete_news_item_in_db()
+	public function delete_news_item_in_db($key)
 	{
-	
+		$scan = $this->dbClient->getIterator('Scan', array('TableName' => 'rcc_sss_program_news_data'));
+		foreach ($scan as $item) {
+			$this->dbClient->deleteItem(array(
+					'TableName' => 'rcc_sss_program_news_data',
+					'Key' => array(
+							'rcc_sss_program_news_data_type' => array('S' => 'news'),
+							'rcc_sss_program_news_data_id' => array('S' => $key)							
+					)
+			));
+		}
+		return $scan;	
 	}	
 }

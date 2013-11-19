@@ -1,7 +1,7 @@
 <?php
 class NewsController extends Zend_Controller_Action
 {
-	#Var declared for ajax manipulation.
+	#vars declared for ajax manipulation.
 	protected $error_array;
 	protected $news_item_title;
 	protected $news_item_summary;
@@ -33,7 +33,8 @@ class NewsController extends Zend_Controller_Action
     			$this->error_array['image'];
     			$this->news_item_title		= $_POST ? $_POST['news_item_title'] : "";
     			$this->news_item_summary	= $_POST ? $_POST['news_item_summary'] : "";
-    			$this->news_item_details	= $_POST ? $_POST['news_item_details'] : "";   		
+    			$this->news_item_details	= $_POST ? $_POST['news_item_details'] : "";   
+    			$this->news_item_public		= $_POST ? $_POST['news_item_is_public'] : "";
     			$this->view->main_content 	= $this->check_form_errors($_POST,false,$_FILES);
     		} else {
     			$this->check_form_errors(NULL,false,NULL);
@@ -44,9 +45,77 @@ class NewsController extends Zend_Controller_Action
     
     public function newsAction()
     {
-    	$this->_helper->layout()->disableLayout();
-    	$this->_helper->viewRenderer->setNoRender(true);    	
+    	//$this->_helper->layout()->disableLayout();
+    	//$this->_helper->viewRenderer->setNoRender(true);    	
     }
+    
+    public function showAction()
+    {
+    	if (!isset($_SESSION['auth_user'])) {
+    		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	} else {    	
+	    	
+	    	$id = $this->getParam('id');
+	    	if ($id == '' || $id != NULL) {    		
+		    	$news_model = new Application_Model_NewsMapper();
+		    	$news_item = $news_model->get_single_news_item_from_db($id);
+		    	foreach ($news_item as $key => $val) {
+		    		$image = 'https://rccsss.s3-us-west-2.amazonaws.com/'.$val['program_news_image']['S'];
+		    		$this->view->news_item_title	= $val['program_news_title']['S'];
+		    		$this->view->news_item_image	= $image;
+		    		$this->view->news_item_summary	= $val['program_news_summary']['S'];
+		    		$this->view->news_item_details	= $val['program_news_details']['S'];
+		    		$this->news_item_public			= $val['public']['S'];
+		    		$this->view->news_item_id = $id;
+					break;
+		    	}
+	    	}
+    	}
+    } 
+
+    public function editAction()
+    {
+    	if (!isset($_SESSION['auth_user'])) {
+    		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	} else {
+    		$id = $this->getParam('id');
+    		if ($id == '' || $id != NULL) {
+    			$news_model = new Application_Model_NewsMapper();
+    			$news_item = $news_model->get_single_news_item_from_db($id);
+    			foreach ($news_item as $key => $val) {
+    				$image = 'https://rccsss.s3-us-west-2.amazonaws.com/'.$val['program_news_image']['S'];
+    				$this->news_item_title		= $val['program_news_title']['S'];
+    				$this->news_item_image		= $image;
+    				$this->news_item_summary	= $val['program_news_summary']['S'];
+    				$this->news_item_details	= $val['program_news_details']['S'];
+    				$this->news_item_public		= $val['public']['S'];
+    				$this->news_item_id			= $id;
+    				break;
+    			}
+    			ob_start();
+    			include_once 'application/views/scripts/news/includes/news_form.php';
+    			$this->view->main_content = ob_get_contents();
+    			ob_end_clean();    			
+    			
+    		}    		
+    	}   	
+    	 
+    }
+
+    public function deleteAction()
+    {
+    	if (!isset($_SESSION['auth_user'])) {
+    		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	} else {
+    		$id = $this->getParam('id');
+    		if ($id == '' || $id != NULL) {
+    			$news_model = new Application_Model_NewsMapper();
+    			$delete_item = $news_model->delete_news_item_in_db($id);
+    		}
+    		$this->_helper->layout()->disableLayout();
+    		$this->_helper->viewRenderer->setNoRender(true);    		    		
+    	}    	 
+    }    
     
     public function ajaxcreateAction()
     {
