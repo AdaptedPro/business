@@ -42,11 +42,68 @@ class NewsController extends Zend_Controller_Action
     		
     	} 	    
     }
-    
-    public function newsAction()
+
+    public function listAction()
     {
-    	//$this->_helper->layout()->disableLayout();
-    	//$this->_helper->viewRenderer->setNoRender(true);    	
+    	if (!isset($_SESSION['auth_user'])) {
+    		$this->view->placeholder('home_title')->set('SSS Program News');
+    		$this->view->placeholder('home_link')->set($this->view->baseUrl().'/news/list');
+    	}    	
+    	$news_model = new Application_Model_NewsMapper();
+    	$news = $news_model->get_all_news_items_from_db(); 
+    	 	
+		$output = "<ul> \n";
+    	foreach ($news as $item)
+    	{
+    		if(!isset($item['error']['S'])) {
+    			$prefix = "https://rccsss.s3-us-west-2.amazonaws.com/";
+    			$image = $item['program_news_image']['S'];
+    			 
+    			if (strpos($image,$prefix) === false) {
+    				$image = $prefix.$image;
+    			}    			
+    			
+    			$output .= "<li> \n";
+    			$output .= "	<div class='list_heading_holder'>
+    								<a href='".$this->view->baseUrl()."/news/item/id/".$item['rcc_sss_program_news_data_id']['S']."'>{$item['program_news_title']['S']}</a>
+    							</div> \n";
+    			$output .= "	<div class='list_item_image'><img src='{$image}' alt='' /></div><br class='clr' /></li> \n";
+    			$output .= "</li> \n";   	
+    		}
+    		
+    	}
+    	$output .= "</ul> \n";
+    	$this->view->news_item_list = $output;
+    }    
+    
+    public function itemAction()
+    {
+        if (!isset($_SESSION['auth_user'])) {
+    		$this->view->placeholder('home_title')->set('SSS Program News');
+    		$this->view->placeholder('home_link')->set($this->view->baseUrl().'/news/list');
+    	}   
+    	$id = $this->getParam('id');
+    	if ($id == '' || $id != NULL) {
+    		$news_model = new Application_Model_NewsMapper();
+    		$news_item = $news_model->get_single_news_item_from_db($id);
+    		foreach ($news_item as $key => $val) {
+    	
+    			$prefix = "https://rccsss.s3-us-west-2.amazonaws.com/";
+    			$image = $val['program_news_image']['S'];
+    	
+    			if (strpos($image,$prefix) === false) {
+    				$image = $prefix.$image;
+    			}
+    	
+    			$this->view->news_item_title		= $val['program_news_title']['S'];
+    			$this->view->news_item_image		= $image;
+    			$this->view->news_item_summary		= $val['program_news_summary']['S'];
+    			$this->view->news_item_details		= $val['program_news_details']['S'];
+    			$this->view->news_item_public		= $val['public']['S'];
+    			$this->view->news_item_id			= $id;
+    			break;
+    		}
+    	}    	
     }
     
     public function showAction()
@@ -99,8 +156,7 @@ class NewsController extends Zend_Controller_Action
     			ob_end_clean();    			
     			
     		}    		
-    	}   	
-    	 
+    	}  
     }
 
     public function deleteAction()
@@ -262,8 +318,7 @@ class NewsController extends Zend_Controller_Action
     }
     
     public function feedAction()
-    {
-    	date_default_timezone_set('America/Los_Angeles');    	
+    {   	
     	require ('library/FeedGen/FeedWriter.php');
     	require ('library/FeedGen/FeedItem.php');
 
@@ -277,7 +332,7 @@ class NewsController extends Zend_Controller_Action
     	//Setting the channel elements
     	//Use wrapper functions for common elements
     	$ProgramNewsFeed->setTitle('RCC SSS Program News');
-    	$ProgramNewsFeed->setLink('http://www.ajaxray.com/rss2/channel/about');
+    	$ProgramNewsFeed->setLink('');
     	
     	//For other channel elements, use setChannelElement() function
     	$ProgramNewsFeed->setChannelElement('updated', date(DATE_ATOM , time()));
@@ -287,24 +342,23 @@ class NewsController extends Zend_Controller_Action
     	foreach ($news as $item) 
     	{
     		//Create an empty FeedItem
+
     		$newItem = $ProgramNewsFeed->createNewItem();
-    		if($item['error']['S'] == NULL) {
-				
+    		if(!isset($item['error']['S'])) {
+			
     			//Add elements to the feed item
     			//Use wrapper functions to add common feed elements
+    			$newItem->setId($item['rcc_sss_program_news_data_id']['S']);
     			$newItem->setTitle($item['program_news_title']['S']);
-    			$newItem->setLink($item['program_news_image']['S']);
+    			$newItem->setLink($this->view->baseUrl()."/news/item/id/".$item['rcc_sss_program_news_data_id']['S']);
     			$newItem->setImage($item['program_news_image']['S']);
-    			$newItem->setDate(time());
-    			//Internally changed to "summary" tag for ATOM feed
+    			$newItem->setDate($item['created_on']['S']);
+    			$newItem->setSummary( $item['program_news_summary']['S']);
     			$newItem->setDescription( $item['program_news_details']['S']);
     			 
     			//Now add the feed item
-    			$ProgramNewsFeed->addItem($newItem);    			
-
-    		} else {
-
-    		}
+    			$ProgramNewsFeed->addItem($newItem);  
+    		} 
     	}    	
 
     	//OK. Everything is done. Now genarate the feed.

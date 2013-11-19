@@ -380,14 +380,54 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 background-color: #8dbdd8;
 }
 
+#news_item_list_holder ul,
+#news_item_list_holder ul li {
+	list-style-type:none;
+}
+
+#news_item_list_holder ul {
+	margin:0;
+	padding:0;
+	width:100%;
+}
+
+#news_item_list_holder li {
+	margin:2px 0;
+	padding:2px;
+	overflow:hidden;
+	width:100%;
+	height:175px;	
+    border-radius: 10px;
+    border: 0;	
+}
+
+div.list_heading_holder { 
+	background-color:#000; 
+	padding:0px 6px;
+	margin:3px 0;
+	position:absolute;
+	margin-top:145px;
+}
+
+div.list_heading_holder a { color:white; }
+div.list_item_image {
+	float:left;	
+}
+
+.clr { clear:both; line-height:0px;}
+
 /* ==========================================================================
    Media Queries
    ========================================================================== */
-@media only screen and (min-width: 480px) {   
-   header .title {
-   text-align:center;
-   }
-   
+@media only screen and (max-width: 480px) {   
+	header .title {
+		text-align:center;
+	}
+	
+	.news_image {
+		width:100%;
+		height:auto;
+	}
 }
 
 @media only screen and (min-width: 480px) {

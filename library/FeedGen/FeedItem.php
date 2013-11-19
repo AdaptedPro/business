@@ -70,7 +70,31 @@
 	// Wrapper functions ------------------------------------------------------
 	
 	/**
-	* Set the 'dscription' element of feed item
+	 * @desc     Set the 'id' element of feed item
+	 * @access   public
+	 * @param    string  The content of 'id' element
+	 * @return   void
+	 */
+	public function setId($id)
+	{
+		$this->addElement('id', $id);
+	}	
+
+	/**
+	 * Set the 'summary' element of feed item
+	 *
+	 * @access   public
+	 * @param    string  The content of 'summary' element
+	 * @return   void
+	 */
+	public function setSummary($summary)
+	{
+		//$tag = ($this->version == ATOM)? 'summary' : 'description';
+		$this->addElement('summary', $summary);
+	}	
+	
+	/**
+	* Set the 'description' element of feed item
 	* 
 	* @access   public
 	* @param    string  The content of 'description' element
@@ -78,8 +102,8 @@
 	*/
 	public function setDescription($description) 
 	{
-		$tag = ($this->version == ATOM)? 'summary' : 'description'; 
-		$this->addElement($tag, $description);
+		//$tag = ($this->version == ATOM)? 'summary' : 'description'; 
+		$this->addElement('description', $description);
 	}
 	
 	/**
@@ -93,11 +117,17 @@
 		$this->addElement('title', $title);  	
 	}
 	
+	/**
+	 * @desc     Set the 'image' element of feed item
+	 * @access   public
+	 * @param    string  The content of 'image' element
+	 * @return   void
+	 */	
 	public function setImage($image)
 	{
 		$this->addElement('image', $image);
 	}	
-	
+		
 	/**
 	* Set the 'date' element of feed item
 	* 
@@ -147,7 +177,7 @@
 		else
 		{
 			$this->addElement('link','',array('href'=>$link));
-			$this->addElement('id', FeedWriter::uuid($link,'urn:uuid:'));
+			//$this->addElement('id', FeedWriter::uuid($link,'urn:uuid:'));
 		} 
 		
 	}
