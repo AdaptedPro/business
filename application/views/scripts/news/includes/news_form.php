@@ -49,6 +49,12 @@
 		setTimeout(fake_change,500);
 		function fake_change() {
 			$(".image_source_radio").change();
+			$("#browse_tool ul li").each(function() {
+				if ($('img',this).attr('src') == '<?php echo 'https://rccsss.s3-us-west-2.amazonaws.com/'.$this->news_item_image;?>') {
+					$('img',this).click();
+				console.log('Test');
+				}
+			});
 		}
 	});
 	//-->

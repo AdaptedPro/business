@@ -89,7 +89,7 @@ class Application_Model_NewsMapper {
 				'TableName' => 'rcc_sss_program_news_data',
 				'Item' => $this->dbClient->formatAttributes(array(
 						'rcc_sss_program_news_data_type'	=> 'news',
-						'rcc_sss_program_news_data_id'		=> 8, #Unique identifier
+						'rcc_sss_program_news_data_id'		=> date('Y-m-d_H-i-s')."_ID", #Unique identifier
 						'created_on'						=> date('Y-m-d H:i:s'),
 						'program_news_title'				=> $DATA['news_item_title'],
 						'program_news_summary'				=> $DATA['news_item_summary'],

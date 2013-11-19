@@ -43,9 +43,17 @@ class IndexController extends Zend_Controller_Action
     		$item_id = urlencode($item['rcc_sss_program_news_data_id']['S']);
     		$hellip = strlen($item['program_news_details']['S']) > 100 ? "&hellip;" : "";
     		$excerpt = substr($item['program_news_details']['S'],-100).$hellip;
+    		
+    		$prefix = "https://rccsss.s3-us-west-2.amazonaws.com/";
+    		$image_name = $item['program_news_image']['S'];
+    		
+    		if (strpos($image_name,$prefix) === false) {
+    			$image_name = $prefix.$image_name;
+    		}    		
+    		
     		$output .= "<tr data-id='{$item_id}'> \n";
     		$output .= "    <td>{$item['program_news_title']['S']}</td> \n";
-    		$output .= "    <td><img src='https://rccsss.s3-us-west-2.amazonaws.com/{$item['program_news_image']['S']}' alt='Story image.' /></td> \n";
+    		$output .= "    <td><img src='{$image_name}' alt='Story image.' /></td> \n";
     		$output .= "    <td>{$excerpt}</td> \n";
     		$output .= "    <td class='action'>
     							<a href='news/show/id/{$item_id}' class='show'>Show</a><br />

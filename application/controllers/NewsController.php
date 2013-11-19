@@ -92,6 +92,7 @@ class NewsController extends Zend_Controller_Action
     				$this->news_item_id			= $id;
     				break;
     			}
+    			$this->image_list		= $this->build_image_list();
     			ob_start();
     			include_once 'application/views/scripts/news/includes/news_form.php';
     			$this->view->main_content = ob_get_contents();
