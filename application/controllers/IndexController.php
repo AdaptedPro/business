@@ -14,20 +14,20 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	$redir = $_GET ? $_GET['r'] : "";
+    	$redir = $_GET ? $_GET['r'] : "";    	
         if (isset($_POST['submit'])) {
         	$user_model = new Application_Model_UsersMapper();
         	$auth_user = $user_model->authenticate_user($_POST);        	
 
-			if ($auth_user) {
-				$_SESSION['timeout'] = time();
-				$_SESSION['auth_user']['username'] = $_POST['username'];
+			if ($auth_user) {				
+ 				$_SESSION['timeout'] = time();
+ 				$_SESSION['auth_user']['username'] = $_POST['username'];
 				header( "Location: {$this->view->baseUrl()}".urldecode($redir) );
 				$this->view->login_message = "";
 			} else {
 				$this->view->login_message = "<span class='error'>Invalid username or password!</span>";
 			}
-        }
+        }      
 
         $this->view->table_output		= $this->build_news_data_table();        
     }
