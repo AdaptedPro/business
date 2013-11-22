@@ -6,7 +6,8 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-    	if (isset($_SESSION['auth_session_data'])) {
+    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');    	
+    	if (isset($_SESSION['auth_session_data']['timeout'])) {
     		if ($_SESSION['auth_session_data']['timeout'] + 30 * 60 < time()) {
 	    		$this->logoutAction();
 	    	}  	    		
@@ -15,13 +16,13 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	$redir = $_GET ? $_GET['r'] : "";    	
+    	$redir = $_GET ? $_GET['r'] : ""; 
+    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');
         if (isset($_POST['submit'])) {
         	$user_model = new Application_Model_UsersMapper();
         	$auth_user = $user_model->authenticate_user($_POST);        	
 
 			if ($auth_user) {
-				$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');
 				$this->auth_session_data->timeout = time();
 				$this->auth_session_data->username = $_POST['username'];
 				if ($redir!="") {
@@ -31,7 +32,7 @@ class IndexController extends Zend_Controller_Action
 			} else {
 				$this->view->login_message = "<span class='error'>Invalid username or password!</span>";
 			}
-        }      
+        }    
 
         $this->view->table_output		= $this->build_news_data_table();        
     }
@@ -72,10 +73,9 @@ class IndexController extends Zend_Controller_Action
     
     public function logoutAction()
     {
-    	unset($_SESSION['auth_session_data']['timeout']);
-    	unset($_SESSION['auth_session_data']['username']);
-//     	unset($_SESSION['timeout']);
-//     	unset($_SESSION['auth_user']);    	
+    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data'); 	
+    	unset($this->auth_session_data->timeout);
+    	unset($this->auth_session_data->username);  
     	header( "Location: {$this->view->baseUrl()}" );
     	$this->_helper->layout()->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
