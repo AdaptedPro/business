@@ -22,8 +22,8 @@ class ImagesController extends Zend_Controller_Action
     public function indexAction()
     {
     	$msg = "";
-    	if (isset($_SESSION['upload'])) {    		
-	    	switch ($_SESSION['upload']) {
+    	if (isset($_SESSION['auth_session_data']['upload'])) {    		
+	    	switch ($_SESSION['auth_session_data']['upload']) {
 	    		case 'Yes':
 	    			$msg = '<p>Image was uploaded successfully.</p>';
 	    			break;
@@ -35,7 +35,7 @@ class ImagesController extends Zend_Controller_Action
 	    			$msg = "";
 	    			break;		
 	    	}
-	    	unset($_SESSION['upload']);
+	    	unset($_SESSION['auth_session_data']['upload']);
     	}
     	$this->view->image_list		= $this->build_image_list();
     	$this->view->upload_message	= $msg;
@@ -81,9 +81,9 @@ class ImagesController extends Zend_Controller_Action
     	$do_upload = $image_model->upload_image_to_bucket($image_name, $image_path); 
 		
     	if ($do_upload) {
-    		$_SESSION['upload'] = 'Yes';
+    		$_SESSION['auth_session_data']['upload'] = 'Yes';
     	} else {
-    		$_SESSION['upload'] = 'No';
+    		$_SESSION['auth_session_data']['upload'] = 'No';
     	}
     	
     	header( "Location: {$this->view->baseUrl()}/images");

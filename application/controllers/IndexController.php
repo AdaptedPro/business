@@ -21,11 +21,9 @@ class IndexController extends Zend_Controller_Action
         	$auth_user = $user_model->authenticate_user($_POST);        	
 
 			if ($auth_user) {
-				$auth_session_data = new Zend_Session_Namespace('auth_session_data');
-				$auth_session_data->timeout = time();
-				$auth_session_data->username = $_POST['username'];
-				//$_SESSION['auth_session_data']['timeout'] = time();
-				//$_SESSION['auth_session_data']['username'] = $_POST['username'];
+				$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');
+				$this->auth_session_data->timeout = time();
+				$this->auth_session_data->username = $_POST['username'];
 				if ($redir!="") {
 					header( "Location: {$this->view->baseUrl()}".urldecode($redir) );
 				}
@@ -74,7 +72,8 @@ class IndexController extends Zend_Controller_Action
     
     public function logoutAction()
     {
-    	unset($_SESSION['auth_session_data']);
+    	unset($_SESSION['auth_session_data']['timeout']);
+    	unset($_SESSION['auth_session_data']['username']);
 //     	unset($_SESSION['timeout']);
 //     	unset($_SESSION['auth_user']);    	
     	header( "Location: {$this->view->baseUrl()}" );
