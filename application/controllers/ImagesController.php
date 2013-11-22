@@ -2,9 +2,11 @@
 
 class ImagesController extends Zend_Controller_Action
 {
-
+	protected $auth_session;
+	
     public function init()
     {
+    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');    	
     	if(!isset($_SESSION['auth_session_data'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
     	} else {

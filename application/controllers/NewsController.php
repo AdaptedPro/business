@@ -2,6 +2,7 @@
 class NewsController extends Zend_Controller_Action
 {
 	#vars declared for ajax manipulation.
+	protected $auth_session;
 	protected $error_array;
 	protected $news_item_title;
 	protected $news_item_summary;
@@ -9,6 +10,7 @@ class NewsController extends Zend_Controller_Action
 	
     public function init()
     {
+    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');    	
     	if (isset($_SESSION['auth_session_data']['timeout'])) {
    			#Set timeout for 30mins.
    			if ($_SESSION['auth_session_data']['timeout'] + 30 * 60 < time()) {
@@ -18,8 +20,8 @@ class NewsController extends Zend_Controller_Action
     }
 
     public function indexAction()
-    {       	
-    	if (!isset($_SESSION['auth_session_data'])) {
+    {       
+    	if (!isset($this->auth_session_data)) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
     	} else {
     		#For adding content for page template layout.php file.
