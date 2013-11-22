@@ -5,10 +5,12 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-    	if (isset($_SESSION['timeout'])) {
-	    	if ($_SESSION['timeout'] + 30 * 60 < time()) {
+    	if (isset($_SESSION['myNamespace'])) {
+	    	/*
+    		if ($_SESSION['myNamespace']['timeout'] + 30 * 60 < time()) {
 	    		$this->logoutAction();
-	    	}  	    		
+	    	}  
+	    	*/	    		
     	}
     }
 
@@ -19,12 +21,19 @@ class IndexController extends Zend_Controller_Action
         	$user_model = new Application_Model_UsersMapper();
         	$auth_user = $user_model->authenticate_user($_POST);        	
 
-			if ($auth_user) {				
- 				$_SESSION['timeout'] = time();
- 				$_SESSION['auth_user']['username'] = $_POST['username'];
-				header( "Location: {$this->view->baseUrl()}".urldecode($redir) );
+			if ($auth_user) {
+				$myNamespace = new Zend_Session_Namespace('myNamespace');
+				$myNamespace->timeout = time();
+				$myNamespace->username = $_POST['username'];
+//  				$_SESSION['timeout'] = time();
+//  				$_SESSION['auth_user']['username'] = $_POST['username'];
+				if ($redir!="") {
+					header( "Location: {$this->view->baseUrl()}".urldecode($redir) );
+				}
 				$this->view->login_message = "";
+				var_dump('Y');
 			} else {
+				var_dump('N');
 				$this->view->login_message = "<span class='error'>Invalid username or password!</span>";
 			}
         }      
@@ -68,6 +77,7 @@ class IndexController extends Zend_Controller_Action
     
     public function logoutAction()
     {
+    	unset($_SESSION['myNamespace']);
     	unset($_SESSION['timeout']);
     	unset($_SESSION['auth_user']);    	
     	header( "Location: {$this->view->baseUrl()}" );
