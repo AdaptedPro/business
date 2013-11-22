@@ -21,7 +21,6 @@ class IndexController extends Zend_Controller_Action
         	$auth_user = $user_model->authenticate_user($_POST);        	
 
 			if ($auth_user) {
-				//$_SESSION['auth_session_data'] = new Zend_Session_Namespace('auth_session_data');
 				$_SESSION['auth_session_data']['timeout'] = time();
 				$_SESSION['auth_session_data']['username'] = $_POST['username'];
 				if ($redir!="") {
