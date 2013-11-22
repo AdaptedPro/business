@@ -5,33 +5,36 @@ class ImagesController extends Zend_Controller_Action
 
     public function init()
     {
-        if(!isset($_SESSION['auth_user'])) {
+    	if(!isset($_SESSION['auth_session_data'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
     	} else {
-    	    if (isset($_SESSION['timeout'])) {
-    		#Set timeout for 30mins.
-    		if ($_SESSION['timeout'] + 30 * 60 < time()) {
-    			header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
-    		}
-    	}   		
+    	    if (isset($_SESSION['auth_session_data']['timeout'])) {
+    			#Set timeout for 30mins.
+    			if ($_SESSION['auth_session_data']['timeout'] + 30 * 60 < time()) {
+    				header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    			}
+    		}   		
     	}
     }
 
     public function indexAction()
     {
-    	switch ($_SESSION['upload']) {
-    		case 'Yes':
-    			$msg = '<p>Image was uploaded successfully.</p>';
-    			break;
-    		case 'No':
-    			$msg = '<p><span class="error_msg">Image could not be uploaded at this time.</span></p>';
-    			break;
-    		case '':
-    		case NULL:
-    			$msg = "";
-    			break;		
+    	$msg = "";
+    	if (isset($_SESSION['upload'])) {    		
+	    	switch ($_SESSION['upload']) {
+	    		case 'Yes':
+	    			$msg = '<p>Image was uploaded successfully.</p>';
+	    			break;
+	    		case 'No':
+	    			$msg = '<p><span class="error_msg">Image could not be uploaded at this time.</span></p>';
+	    			break;
+	    		case '':
+	    		case NULL:
+	    			$msg = "";
+	    			break;		
+	    	}
+	    	unset($_SESSION['upload']);
     	}
-    	unset($_SESSION['upload']);
     	$this->view->image_list		= $this->build_image_list();
     	$this->view->upload_message	= $msg;
     }
@@ -39,9 +42,8 @@ class ImagesController extends Zend_Controller_Action
     public function imagesAction()
     {
     	$image_model = new Application_Model_ImagesMapper();
-    	$image_name = '2013-11-15_21-46-46_2012-08-16T215305Z_814177836_GM1E88H0G5Y01_RTRMADP_3_SAFRICA-LONMIN.JPG';
-    	$remove_image = $image_model->delete_images_from_bucket($image_name);
-    	var_dump($remove_image);
+    	#$image_name = '2013-11-15_21-46-46_2012-08-16T215305Z_814177836_GM1E88H0G5Y01_RTRMADP_3_SAFRICA-LONMIN.JPG';
+    	#$remove_image = $image_model->delete_images_from_bucket($image_name);
     }
     
     public function deleteAction()

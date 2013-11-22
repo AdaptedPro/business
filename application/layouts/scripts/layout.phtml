@@ -28,7 +28,7 @@
         <div class="header-container">
             <header class="wrapper clearfix">
                 <h1 class="title"><a href="<?php if( $this->placeholder('home_link') != "") { echo $this->placeholder('home_link'); } else { echo $this->baseUrl(); }?>"><?php if ($this->placeholder('home_title') != "") { echo $this->placeholder('home_title'); } else { echo "SSS News Push Manager"; } ?></a></h1>
-                <?php if(isset($_SESSION['auth_user'])) { ?>
+                <?php if(isset($_SESSION['auth_session_data'])) { ?>
                 <nav>
                     <ul>
                         <li><a <?php if($_SERVER['REQUEST_URI'] == $this->baseUrl()."/news") echo "class=\"selected\" "; ?>href="<?php echo $this->baseUrl(); ?>/news">News</a></li>

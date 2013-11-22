@@ -9,24 +9,21 @@ class NewsController extends Zend_Controller_Action
 	
     public function init()
     {
-    	/*
-    	if (isset($_SESSION['timeout'])) {
-    		#Set timeout for 30mins.
-    		if ($_SESSION['timeout'] + 30 * 60 < time()) {
-    			header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	if(!isset($_SESSION['auth_session_data'])) {
+    		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    	} else {
+    		if (isset($_SESSION['auth_session_data']['timeout'])) {
+    			#Set timeout for 30mins.
+    			if ($_SESSION['auth_session_data']['timeout'] + 30 * 60 < time()) {
+    				header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
+    			}
     		}
-    	}
-    	*/
-    	if (isset($_SESSION['myNamespace'])) {
-    		if ($_SESSION['myNamespace']['timeout'] + 30 * 60 < time()) {
-    			header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
-    		}
-    	}    	
+    	}  	   	
     }
 
     public function indexAction()
-    {   
-    	if (isset($_SESSION['myNamespace'])) {
+    {       	
+    	if (!isset($_SESSION['auth_session_data'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
     	} else {
     		#For adding content for page template layout.php file.
@@ -52,7 +49,7 @@ class NewsController extends Zend_Controller_Action
 
     public function listAction()
     {
-    	if (isset($_SESSION['myNamespace'])) {
+    	if (isset($_SESSION['auth_session_data'])) {
     		$this->view->placeholder('home_title')->set('SSS Program News');
     		$this->view->placeholder('home_link')->set($this->view->baseUrl().'/news/list');
     	}    	
@@ -85,7 +82,7 @@ class NewsController extends Zend_Controller_Action
     
     public function itemAction()
     {
-        if (isset($_SESSION['myNamespace'])) {
+        if (isset($_SESSION['auth_session_data'])) {
     		$this->view->placeholder('home_title')->set('SSS Program News');
     		$this->view->placeholder('home_link')->set($this->view->baseUrl().'/news/list');
     	}   
@@ -115,7 +112,7 @@ class NewsController extends Zend_Controller_Action
     
     public function showAction()
     {
-    	if (isset($_SESSION['myNamespace'])) {
+    	if (isset($_SESSION['auth_session_data'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
     	} else {    	
 	    	
@@ -139,7 +136,7 @@ class NewsController extends Zend_Controller_Action
 
     public function editAction()
     {
-    	if (isset($_SESSION['myNamespace'])) {
+    	if (isset($_SESSION['auth_session_data'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
     	} else {
     		$id = $this->getParam('id');
@@ -168,7 +165,7 @@ class NewsController extends Zend_Controller_Action
 
     public function deleteAction()
     {
-    	if (isset($_SESSION['myNamespace'])) {
+    	if (isset($_SESSION['auth_session_data'])) {
     		header( "Location: {$this->view->baseUrl()}?r=".urlencode(str_replace($this->view->baseUrl(), "", $_SERVER['REQUEST_URI'])) );
     	} else {
     		$id = $this->getParam('id');

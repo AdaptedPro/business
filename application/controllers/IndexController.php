@@ -2,16 +2,15 @@
 
 class IndexController extends Zend_Controller_Action
 {
+	protected $auth_session_data;
 
     public function init()
     {
-    	if (isset($_SESSION['myNamespace'])) {
-	    	/*
-    		if ($_SESSION['myNamespace']['timeout'] + 30 * 60 < time()) {
+    	if (isset($_SESSION['auth_session_data'])) {
+    		if ($_SESSION['auth_session_data']['timeout'] + 30 * 60 < time()) {
 	    		$this->logoutAction();
-	    	}  
-	    	*/	    		
-    	}
+	    	}  	    		
+    	} 
     }
 
     public function indexAction()
@@ -22,18 +21,14 @@ class IndexController extends Zend_Controller_Action
         	$auth_user = $user_model->authenticate_user($_POST);        	
 
 			if ($auth_user) {
-				$myNamespace = new Zend_Session_Namespace('myNamespace');
-				$myNamespace->timeout = time();
-				$myNamespace->username = $_POST['username'];
-//  				$_SESSION['timeout'] = time();
-//  				$_SESSION['auth_user']['username'] = $_POST['username'];
+				//$_SESSION['auth_session_data'] = new Zend_Session_Namespace('auth_session_data');
+				$_SESSION['auth_session_data']['timeout'] = time();
+				$_SESSION['auth_session_data']['username'] = $_POST['username'];
 				if ($redir!="") {
 					header( "Location: {$this->view->baseUrl()}".urldecode($redir) );
 				}
 				$this->view->login_message = "";
-				var_dump('Y');
 			} else {
-				var_dump('N');
 				$this->view->login_message = "<span class='error'>Invalid username or password!</span>";
 			}
         }      
@@ -77,9 +72,9 @@ class IndexController extends Zend_Controller_Action
     
     public function logoutAction()
     {
-    	unset($_SESSION['myNamespace']);
-    	unset($_SESSION['timeout']);
-    	unset($_SESSION['auth_user']);    	
+    	unset($_SESSION['auth_session_data']);
+//     	unset($_SESSION['timeout']);
+//     	unset($_SESSION['auth_user']);    	
     	header( "Location: {$this->view->baseUrl()}" );
     	$this->_helper->layout()->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
