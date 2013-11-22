@@ -1,6 +1,6 @@
 <?php
-require 'library/AWS/aws.phar';
-require 'library/vendor/autoload.php';
+require APPLICATION_PATH.'/../library/AWS/aws.phar';
+require APPLICATION_PATH.'/../library/vendor/autoload.php';
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
