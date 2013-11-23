@@ -1,4 +1,7 @@
-<?php
+<?php 
+session_save_path(realpath(APPLICATION_PATH ."/../tmp/session/")); 
+ini_set('session.gc_probability', 1);
+session_start();
 
 // Define path to application directory
 defined('APPLICATION_PATH')

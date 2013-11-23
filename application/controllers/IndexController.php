@@ -6,7 +6,7 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');    	
+//     	$this->auth_session_data = $_SESSION['auth_session_data'];    	
     	if (isset($_SESSION['auth_session_data']['timeout'])) {
     		if ($_SESSION['auth_session_data']['timeout'] + 30 * 60 < time()) {
 	    		$this->logoutAction();
@@ -17,14 +17,16 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
     	$redir = $_GET ? $_GET['r'] : ""; 
-    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');
+//     	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data');
         if (isset($_POST['submit'])) {
         	$user_model = new Application_Model_UsersMapper();
         	$auth_user = $user_model->authenticate_user($_POST);        	
 
 			if ($auth_user) {
-				$this->auth_session_data->timeout = time();
-				$this->auth_session_data->username = $_POST['username'];
+				$_SESSION['auth_session_data']['timeout'] = time();
+				$_SESSION['auth_session_data']['username'] = $_POST['username'];
+// 				$this->auth_session_data->timeout = time();
+// 				$this->auth_session_data->username = $_POST['username'];
 				if ($redir!="") {
 					header( "Location: {$this->view->baseUrl()}".urldecode($redir) );
 				}
@@ -72,10 +74,10 @@ class IndexController extends Zend_Controller_Action
     }
     
     public function logoutAction()
-    {
-    	$this->auth_session_data = new Zend_Session_Namespace('auth_session_data'); 	
-    	unset($this->auth_session_data->timeout);
-    	unset($this->auth_session_data->username);  
+    { 	
+//     	unset($this->auth_session_data->timeout);
+//     	unset($this->auth_session_data->username);  
+		unset($_SESSION['auth_session_data']);
     	header( "Location: {$this->view->baseUrl()}" );
     	$this->_helper->layout()->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
