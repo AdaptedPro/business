@@ -27,7 +27,7 @@
 
         <div class="header-container">
             <header class="wrapper clearfix">
-                <h1 class="title"><a href="<?php echo $this->placeholder('home_link') != "" ? $this->placeholder('home_link') : $this->baseUrl();?>"><?php echo $this->placeholder('home_title') !="" ? $this->placeholder('home_title') : "SSS News Push Manager"; ?></a></h1>
+                <h1 class="title"><a href="<?php echo $this->placeholder('home_link') != "" ? $this->placeholder('home_link').'test' : $this->baseUrl();?>"><?php echo $this->placeholder('home_title') !="" ? $this->placeholder('home_title') : "SSS News Push Manager"; ?></a></h1>
                 <?php if(isset($_SESSION['auth_session_data'])) { ?>
                 <nav>
                     <ul>
