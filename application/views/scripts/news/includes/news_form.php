@@ -1,6 +1,6 @@
 	<form id="create_program_news_form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">	
 		<p><?php echo $this->error_array['title'] ? $this->error_array['title'].'<br />' : ""; ?>
-		<input type="text" id="news_item_title" name="news_item_title" value="<?php echo $this->news_item_title; ?>" maxlength="60" class="news_form_data" placeholder="Title" required/>
+		<input type="text" id="news_item_title" name="news_item_title" value="<?php echo $this->news_item_title; ?>" maxlength="60" class="news_form_data" placeholder="Title...this will be used as the Push Notification text." required/>
 		</p>
 	
 		<p><?php echo $this->error_array['summary'] ? $this->error_array['summary'].'<br />' : ""; ?>

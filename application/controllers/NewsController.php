@@ -346,19 +346,28 @@ class NewsController extends Zend_Controller_Action
     		//Create an empty FeedItem
     		$newItem = $ProgramNewsFeed->createNewItem();
     		if(!isset($item['error']['S'])) {
-			
-    			//Add elements to the feed item
-    			//Use wrapper functions to add common feed elements
-    			$newItem->setId($item['rcc_sss_program_news_data_id']['S']);
-    			$newItem->setTitle($item['program_news_title']['S']);
-    			$newItem->setLink($this->view->baseUrl()."/news/item/id/".$item['rcc_sss_program_news_data_id']['S']);
-    			$newItem->setImage($item['program_news_image']['S']);
-    			$newItem->setDate($item['created_on']['S']);
-    			$newItem->setSummary( $item['program_news_summary']['S']);
-    			$newItem->setDescription( $item['program_news_details']['S']);
-    			 
-    			//Now add the feed item
-    			$ProgramNewsFeed->addItem($newItem);  
+				if ($item['public']['S'] == "Y") {
+
+					$prefix = "https://rccsss.s3-us-west-2.amazonaws.com/";
+					$image = $item['program_news_image']['S'];
+					 
+					if (strpos($image,$prefix) === false) {
+						$image = $prefix.$image;
+					}					
+					
+	    			//Add elements to the feed item
+	    			//Use wrapper functions to add common feed elements
+	    			$newItem->setId($item['rcc_sss_program_news_data_id']['S']);
+	    			$newItem->setTitle($item['program_news_title']['S']);
+	    			$newItem->setLink($this->view->baseUrl()."/news/item/id/".$item['rcc_sss_program_news_data_id']['S']);
+	    			$newItem->setImage($image);
+	    			$newItem->setDate($item['created_on']['S']);
+	    			$newItem->setSummary( $item['program_news_summary']['S']);
+	    			$newItem->setDescription( $item['program_news_details']['S']);
+	    			 
+	    			//Now add the feed item
+	    			$ProgramNewsFeed->addItem($newItem);  
+				}
     		} 
     	}    	
 
