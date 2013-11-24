@@ -71,16 +71,6 @@ class IndexController extends Zend_Controller_Action
     	}
     
     	return $output;
-    }
-    
-    public function logoutAction()
-    { 	
-//     	unset($this->auth_session_data->timeout);
-//     	unset($this->auth_session_data->username);  
-		unset($_SESSION['auth_session_data']);
-    	header( "Location: {$this->view->baseUrl()}" );
-    	$this->_helper->layout()->disableLayout();
-    	$this->_helper->viewRenderer->setNoRender(true);    	
     }    
 
 }
