@@ -326,7 +326,7 @@ class NewsController extends Zend_Controller_Action
 
     	$news_model = new Application_Model_NewsMapper();
     	$news = $news_model->get_all_news_items_from_db();
-    	
+    	    	
     	//Creating an instance of FeedWriter class.
     	//The constant ATOM is passed to mention the version
     	$ProgramNewsFeed = new FeedWriter(ATOM);
@@ -339,44 +339,59 @@ class NewsController extends Zend_Controller_Action
     	//For other channel elements, use setChannelElement() function
     	$ProgramNewsFeed->setChannelElement('updated', date(DATE_ATOM , time()));
     	$ProgramNewsFeed->setChannelElement('author', array('name'=>'Student Support Services'));
-    	  	
-    	// Each item will contain the attributes we added
+
+    	$array = array();
     	foreach ($news as $item) 
     	{
-    		//Create an empty FeedItem
-    		$newItem = $ProgramNewsFeed->createNewItem();
-    		if(!isset($item['error']['S'])) {
-				if ($item['public']['S'] == "Y") {
-
-					$prefix = "https://rccsss.s3-us-west-2.amazonaws.com/";
-					$image = $item['program_news_image']['S'];
-					 
-					if (strpos($image,$prefix) === false) {
-						$image = $prefix.$image;
-					}					
-					
-	    			//Add elements to the feed item
-	    			//Use wrapper functions to add common feed elements
-	    			$newItem->setId($item['rcc_sss_program_news_data_id']['S']);
-	    			$newItem->setTitle($item['program_news_title']['S']);
-	    			$newItem->setLink($this->view->baseUrl()."/news/item/id/".$item['rcc_sss_program_news_data_id']['S']);
-	    			$newItem->setImage($image);
-	    			$newItem->setDate($item['created_on']['S']);
-	    			$newItem->setSummary( $item['program_news_summary']['S']);
-	    			$newItem->setDescription( $item['program_news_details']['S']);
-	    			 
-	    			//Now add the feed item
-	    			$ProgramNewsFeed->addItem($newItem);  
-				}
-    		} 
-    	}    	
-
+    		$array[] = $item['created_on']['S'];
+    	}
+    	arsort($array);    	
+    	$i = 0;
+    	
+    	// Each item will contain the attributes we added
+    	foreach ($array as $object) 
+    	{
+    		foreach ($news as $item)
+    		{
+    			if ($object == $item['created_on']['S']) {
+    				//Create an empty FeedItem
+    				$newItem = $ProgramNewsFeed->createNewItem();
+    				if(!isset($item['error']['S'])) {
+    					if ($item['public']['S'] == "Y") {
+    						$prefix = "https://rccsss.s3-us-west-2.amazonaws.com/";
+    						$image = $item['program_news_image']['S'];
+    						if (strpos($image,$prefix) === false) {
+    							$image = $prefix.$image;
+    						}
+    						//Add elements to the feed item
+    						//Use wrapper functions to add common feed elements
+    						$newItem->setId($item['rcc_sss_program_news_data_id']['S']);
+    						$newItem->setTitle($item['program_news_title']['S']);
+    						$newItem->setLink($this->view->baseUrl()."/news/item/id/".$item['rcc_sss_program_news_data_id']['S']);
+    						$newItem->setImage($image);
+    						$newItem->setDate($item['created_on']['S']);
+    						$newItem->setSummary( $item['program_news_summary']['S']);
+    						$newItem->setDescription( $item['program_news_details']['S']);
+    						//Now add the feed item
+    						$ProgramNewsFeed->addItem($newItem);
+    					}
+    				
+    				}   				
+    			}
+    		}    		
+    	}   	
+    	
     	//OK. Everything is done. Now genarate the feed.
     	$ProgramNewsFeed->genarateFeed();  
 
     	$this->_helper->layout()->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
     }
+    
+    private function cmp($a, $b)
+    {
+    	return strcmp($a['created_on']['S'], $b['created_on']['S']);
+    }   
 
 }
 
